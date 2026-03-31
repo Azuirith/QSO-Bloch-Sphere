@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 from qiskit import *
 from qiskit.circuit.library import HGate
 from qiskit.quantum_info import Statevector
+from IPython.display import display
+from IPython.display import Latex
+from qiskit.visualization import state_visualization
 
 # qc = QuantumCircuit(2)
 # qc.append(HGate(), [0])
@@ -10,24 +13,14 @@ from qiskit.quantum_info import Statevector
 # plt.show()
 
 # qubits: a, b, sum, carry
-qc = QuantumCircuit(4)
+qc = QuantumCircuit(1)
 
 # Choose values for A and B:
 a = 0
-b = 0
 
-# Prepare A and B qubits according to selected values:
-if a:
-    qc.x(0)
-if b:
-    qc.x(1)
+qc.h(a)
+qc.h(a)
 
-# XOR (sum) into qubit 2
-qc.cx(0, 2)
-qc.cx(1, 2)
-
-# AND (carry) into qubit 3
-qc.ccx(0, 1, 3)  # a AND b
 
 # measure
 # qc.measure_all()
@@ -36,9 +29,18 @@ qc.ccx(0, 1, 3)  # a AND b
 
 # print(f"Register Name: {measurment.name}")
 # print(f"Number of bits: {measurment.size}")
+# print(f"Number of bits: {type(measurment)}")
 
 state = Statevector.from_instruction(qc)
 print(state)
+latex =state.draw(output='latex')
+# state_to_latex = state_visualization._state_to_latex_ket(state.data, max_size = 128)
 
-qc.draw("mpl")
-plt.show()
+
+# latex(state_to_latex)
+fig, ax = plt.subplots(figsize=(5, 2))
+ax.text(0.5, 0.5, f"{latex}")
+ax.axis('off')
+
+# qc.draw("mpl")
+plt.show() 
