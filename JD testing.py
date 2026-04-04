@@ -5,6 +5,7 @@ from qiskit.quantum_info import Statevector
 from IPython.display import display
 from IPython.display import Latex
 from qiskit.visualization import state_visualization
+import numpy as np
 
 # qc = QuantumCircuit(2)
 # qc.append(HGate(), [0])
@@ -12,14 +13,17 @@ from qiskit.visualization import state_visualization
 # qc.draw("mpl")
 # plt.show()
 
-# qubits: a, b, sum, carry
-qc = QuantumCircuit(1)
+qc = QuantumCircuit(2)
 
-# Choose values for A and B:
 a = 0
-
+# qc.x(a)
+# qc.x(a)
+# qc.id(a)
+# qc.cx(a)
 qc.h(a)
-qc.h(a)
+qc.y(a)
+# qc.z(a)
+# qc.rz(np.pi / 2, a)
 
 
 # measure
@@ -30,17 +34,26 @@ qc.h(a)
 # print(f"Register Name: {measurment.name}")
 # print(f"Number of bits: {measurment.size}")
 # print(f"Number of bits: {type(measurment)}")
-
 state = Statevector.from_instruction(qc)
-print(state)
-latex =state.draw(output='latex')
-# state_to_latex = state_visualization._state_to_latex_ket(state.data, max_size = 128)
+
+print(state.data)
+# Determine the angle(theta) from the 1st term
+phase = np.angle(state.data[0])
+temp = state.data * np.exp(-1j * phase)
+# print(f"{temp}")
+theta = np.arccos(np.real(temp[0])) * 2
+
+# Determine the phase(phi) of 2nd term
+phi = np.angle(temp[1])
+print(f"theta = {np.rad2deg(theta)}")
+print(f"phi = {phi}")
 
 
-# latex(state_to_latex)
-fig, ax = plt.subplots(figsize=(5, 2))
-ax.text(0.5, 0.5, f"{latex}")
-ax.axis('off')
+
+# ***** This Works ******
+# latex =state.draw(output='latex_source')
+# fig = plt.figure(figsize=(5, 2))
+# fig.text(0.5, 0.5, f"${latex}$", usetex=False)
 
 # qc.draw("mpl")
-plt.show() 
+# plt.show() 
