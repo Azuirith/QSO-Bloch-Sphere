@@ -42,7 +42,7 @@ latex = state.draw(output = 'latex_source')
 fig = plt.figure(figsize = (6, 2.5))
 # Add text to figure to display the resulting quantum 
 # state vector as well as its corresponding spherical cordinates
-fig.text(0.5, 0.5, f"${latex}$", ha='center', usetex = False)
-fig.text(0.5, 0.4, fr"$\theta={np.degrees(theta):.2f}\degree$, $\phi={np.degrees(phi):.2f}\degree$", ha='center', usetex = False)
+fig.text(0.5, 0.5, f"${latex}$", ha='center', fontsize = 14, usetex = False)
+fig.text(0.5, 0.3, fr"$\theta={np.degrees(theta):.2f}\degree$, $\phi={np.degrees(phi):.2f}\degree$", fontsize = 12, ha='center', usetex = False)
 
 plt.show()
